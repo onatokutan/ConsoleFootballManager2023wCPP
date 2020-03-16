@@ -98,7 +98,7 @@ class takim
     }
     void takimPuanAta(int puan)
     {
-        takimPuan=puan;
+        takimPuan=takimPuan+puan;
     }
     int takimPuanGoster()
     {
@@ -172,10 +172,10 @@ string takimAd[] ={
 "Burdur",	
 "Bursa",	
 "Canakkale",	
-"Cankırı",	
+"Cankiri",	
 "Corum",	
 "Denizli",	
-"Diyarbakİr",	
+"Diyarbakir",	
 "Duzce",	
 "Edirne",	
 "Elazig",	
@@ -254,9 +254,7 @@ int main()
        takimim[i]->takimAdiAta(takimAd[rand() %81] +" "+ takimAd2[rand()%10]);
        takimim[i]->oyuncuekle();
        cout<<"["<<i<<"] - "<<takimim[i]->takimAdiGoster()<<"\tTakim Gucu : "
-       <<takimim[i]->takimGucuHesapla()<<endl;
-    
-       
+       <<takimim[i]->takimGucuHesapla()<<endl;       
     }
     cout<<"Takimlar olusturuldu."<<endl;
     string tmp;
@@ -264,6 +262,7 @@ int main()
     cout<<"Baslamak icin 'basla' yazin : \n";
     cin>>basla;
     system("cls");
+    int fiksturSayac=0;
     while(basla=="basla")
     {
             string siralama[kacTakim];
@@ -271,9 +270,8 @@ int main()
             cin>>tmp;
             system("cls");
             if(tmp=="1"){
-                    for(int i=0;i<kacTakim;i++)
-                    {
-                        for(int j=0;j<kacTakim-1;j++)
+                for(int i=0;i<kacTakim;i++){
+              /*          for(int j=0;j<kacTakim-1;j++)
                         {
                             if(takimim[j]->takimPuanGoster()>=takimim[j+1]->takimPuanGoster())
                             {
@@ -284,11 +282,61 @@ int main()
                     }
                     for(int i=0;i<kacTakim;i++){
                        cout<<i<<" - "<<siralama[i]<<" "<<takimim[i]->takimPuanGoster()<<" puan"<<endl;
-                    }
+                */  
+                    cout<<takimim[i]->takimAdiGoster()<<" "<<takimim[i]->takimPuanGoster()<<endl;               
+                }
             }
             if(tmp=="2"){
                 {
-                    cout<<"lol"<<endl;
+                    int macSkor[2];
+                    for(int i=fiksturSayac;i<kacTakim+fiksturSayac;i=i+2){
+                        if(takimim[i%kacTakim]->takimGucuHesapla() > takimim[(i+1)%kacTakim]->takimGucuHesapla())
+                        {
+                            takimim[i%kacTakim]->takimPuanAta(3);
+                            macSkor[0] = rand()%6;
+                            macSkor[1] = rand()%6;
+                            while(macSkor[0]==macSkor[1])
+                            {
+                                macSkor[0] = rand()%6;
+                                macSkor[1] = rand()%6;
+                            }
+                            if(macSkor[0]>macSkor[1])
+                                cout<<takimim[i%kacTakim]->takimAdiGoster()<<" "<<macSkor[0]<<" - "
+                                <<macSkor[1]<<" "<<takimim[(i+1)%kacTakim]->takimAdiGoster()<<endl;
+                            else 
+                                cout<<takimim[i%kacTakim]->takimAdiGoster()<<" "<<macSkor[1]<<" - "
+                                <<macSkor[0]<<" "<<takimim[(i+1)%kacTakim]->takimAdiGoster()<<endl;
+
+                        }
+                        else if(takimim[i%kacTakim]->takimGucuHesapla() == takimim[(i+1)%kacTakim]->takimGucuHesapla())
+                        {
+                            takimim[i%kacTakim]->takimPuanAta(1);
+                            takimim[(i+1)%kacTakim]->takimPuanAta(1);
+                            macSkor[0] = rand()%6;
+                            cout<<takimim[i%kacTakim]->takimAdiGoster()<<" "<<macSkor[0]<<" - "
+                            <<macSkor[0]<<" "<<takimim[(i+1)%kacTakim]->takimAdiGoster()<<endl;
+                        }
+                        else if(takimim[i%kacTakim]->takimGucuHesapla() < takimim[(i+1)%kacTakim]->takimGucuHesapla()) 
+                        {
+                            takimim[(i+1)%kacTakim]->takimPuanAta(3);
+                            macSkor[0] = rand()%6;
+                            macSkor[1] = rand()%6;
+                            while(macSkor[0]==macSkor[1])
+                            {
+                                macSkor[0] = rand()%6;
+                                macSkor[1] = rand()%6;
+                            }
+                            if(macSkor[0]>macSkor[1])
+                                cout<<takimim[i%kacTakim]->takimAdiGoster()<<" "<<macSkor[1]<<" - "
+                                <<macSkor[0]<<" "<<takimim[(i+1)%kacTakim]->takimAdiGoster()<<endl;
+                            else 
+                                cout<<takimim[i%kacTakim]->takimAdiGoster()<<" "<<macSkor[0]<<" - "
+                                <<macSkor[1]<<" "<<takimim[(i+1)%kacTakim]->takimAdiGoster()<<endl;
+
+                        }
+                        
+                    }
+                    fiksturSayac++;
                 }
             }
             if(tmp=="3"){

@@ -47,24 +47,47 @@ class oyuncu
 {
 private:
     string oyuncuAdi;
-    int oyuncuGucu;
+    int oyuncuAtkGucu;
+    int oyuncuMidGucu;
+    int oyuncuDefGucu;
     short int oyuncuNo;
 
 public:
     oyuncu()
     {
         oyuncuAdi = " ";
-        oyuncuGucu = 0;
+        oyuncuAtkGucu = 0;
+        oyuncuMidGucu = 0;
+        oyuncuDefGucu = 0;
         oyuncuNo = 0;
     }
-    void oyuncuGucAta(int guc)
+    void oyuncuAtkGucAta(int guc)
     {
-        oyuncuGucu = guc;
+        oyuncuAtkGucu = guc;
     }
-    int oyuncuGucGoster()
+    int oyuncuAtkGucGoster()
     {
-        return oyuncuGucu;
+        return oyuncuAtkGucu;
     }
+
+    void oyuncuMidGucAta(int guc)
+    {
+        oyuncuMidGucu = guc;
+    }
+    int oyuncuMidGucGoster()
+    {
+        return oyuncuMidGucu;
+    }
+
+    void oyuncuDefGucAta(int guc)
+    {
+        oyuncuDefGucu = guc;
+    }
+    int oyuncuDefGucGoster()
+    {
+        return oyuncuDefGucu;
+    }
+
     void oyuncuNoAta(int no)
     {
         oyuncuNo = no;
@@ -87,6 +110,9 @@ class takim
 
 private:
     string takimAdi;
+    int takimAtkGuc;
+    int takimMidGuc;
+    int takimDefGuc;
     int takimPuan;
     int takimId;
     oyuncu oyuncular[11];
@@ -96,6 +122,21 @@ public:
     {
         takimAdi = " ";
         takimPuan = 0;
+        takimAtkGuc=0;
+        takimMidGuc=0;
+        takimDefGuc=0;
+    }
+    int takimAtkGucGoster()
+    {
+        return takimAtkGuc;
+    }
+    int takimMidGucGoster()
+    {
+        return takimMidGuc;
+    }
+    int takimDefGucGoster()
+    {
+        return takimDefGuc;
     }
     void takimIdAta(int id)
     {
@@ -121,13 +162,16 @@ public:
     {
         return takimAdi;
     }
+
     void oyuncuekle()
     {
         for (int i = 0; i < 11; i++)
         {
             oyuncular[i].oyuncuAdiAta(oyuncuAd[rand() % 36] + " " + oyuncuAd[rand() % 36]);
             oyuncular[i].oyuncuNoAta(rand() % 100);
-            oyuncular[i].oyuncuGucAta(rand() % 5 + 1);
+            oyuncular[i].oyuncuAtkGucAta(rand() % 5 + 1);
+            oyuncular[i].oyuncuMidGucAta(rand() % 5 + 1);
+            oyuncular[i].oyuncuDefGucAta(rand() % 5 + 1);
         }
     }
     void oyuncuGoster()
@@ -136,16 +180,19 @@ public:
         {
             if (oyuncular[i].oyuncuNoGoster() < 10)
             {
-                cout << "Numara:" << oyuncular[i].oyuncuNoGoster() << "  - " << oyuncular[i].oyuncuAdiGoster();
-                for (int j = 0; j < oyuncular[i].oyuncuGucGoster(); j++)
-                    cout << "*";
+                cout << "Numara:" << oyuncular[i].oyuncuNoGoster() << "  - " << oyuncular[i].oyuncuAdiGoster()
+                     << "  | ATK | " << oyuncular[i].oyuncuAtkGucGoster() << "/5"
+                     << "  | MID | " << oyuncular[i].oyuncuMidGucGoster() << "/5"
+                     << "  | DEF |" << oyuncular[i].oyuncuDefGucGoster() << "/5";
+
                 cout << endl;
             }
             else
             {
-                cout << "Numara:" << oyuncular[i].oyuncuNoGoster() << " - " << oyuncular[i].oyuncuAdiGoster();
-                for (int j = 0; j < oyuncular[i].oyuncuGucGoster(); j++)
-                    cout << "*";
+                cout << "Numara:" << oyuncular[i].oyuncuNoGoster() << " - " << oyuncular[i].oyuncuAdiGoster()
+                     << "  | ATK | " << oyuncular[i].oyuncuAtkGucGoster() << "/5"
+                     << "  | MID | " << oyuncular[i].oyuncuMidGucGoster() << "/5"
+                     << "  | DEF |" << oyuncular[i].oyuncuDefGucGoster() << "/5";
                 cout << endl;
             }
         }
@@ -154,7 +201,11 @@ public:
     {
         int takimGucu = 0;
         for (int i = 0; i < 11; i++)
-            takimGucu = takimGucu + oyuncular[i].oyuncuGucGoster();
+        {
+            takimAtkGuc = takimAtkGuc + oyuncular[i].oyuncuAtkGucGoster();
+            takimMidGuc = takimMidGuc + oyuncular[i].oyuncuMidGucGoster();
+            takimDefGuc = takimDefGuc + oyuncular[i].oyuncuDefGucGoster();
+        }
         return takimGucu;
     }
 };
@@ -308,8 +359,14 @@ int main()
         takimim[i]->takimAdiAta(takimAd[rand() % 81] + " " + takimAd2[rand() % 10]);
         takimim[i]->oyuncuekle();
         takimim[i]->takimIdAta(i);
-        cout << "[" << i << "] - " << takimim[i]->takimAdiGoster() << "\tTakim Gucu : "
-             << takimim[i]->takimGucuHesapla() << endl;
+        takimim[i]->takimGucuHesapla();
+        cout << "ID:" << i << " " << takimim[i]->takimAdiGoster() << "\t ATK : "
+             << takimim[i]->takimAtkGucGoster()
+             << "\t MID :"
+             << takimim[i]->takimMidGucGoster()
+             << "\t DEF :"
+             << takimim[i]->takimDefGucGoster()
+             << endl;
     }
     cout << "Takimlar olusturuldu." << endl;
     //fikstur olusturma kismi
@@ -367,9 +424,9 @@ int main()
                     }
                 }
             }
-            for(int i=0;i<kacTakim;i++)
+            for (int i = 0; i < kacTakim; i++)
             {
-                cout<<i+1<<" . - " <<tempTakim[i]<<" - "<<tempArray[i]<<" pts"<<endl;
+                cout << i + 1 << " . - " << tempTakim[i] << " - " << tempArray[i] << " pts" << endl;
             }
         }
         if (tmp == "2")
@@ -397,8 +454,13 @@ int main()
         {
             cout << "Hangi takimin oyunculari goruntulensin? ID sini yaz.\n";
             for (int i = 0; i < kacTakim; i++)
-                cout << "ID:" << i << " " << takimim[i]->takimAdiGoster() << "\tTakim Gucu : "
-                     << takimim[i]->takimGucuHesapla() << endl;
+                cout << "ID:" << i << " " << takimim[i]->takimAdiGoster() << "\t ATK : "
+                     << takimim[i]->takimAtkGucGoster()
+                     << "\t MID :"
+                     << takimim[i]->takimMidGucGoster()
+                     << "\t DEF :"
+                     << takimim[i]->takimDefGucGoster()
+                     << endl;
             cin >> tmp;
             takimim[stoi(tmp)]->oyuncuGoster();
         }

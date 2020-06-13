@@ -42,7 +42,35 @@ string oyuncuAd[] = { //36
     "MEHMET",
     "UMUT",
     "MUSTAFA"};
+class taktik
+{
+private:
+    string dizilis;
+    string tarz;
 
+public:
+    taktik()
+    {
+        dizilis = " ";
+        tarz = " ";
+    }
+    void dizilisAta(string pdizilis)
+    {
+        dizilis = pdizilis;
+    }
+    void tarzAta(string ptarz)
+    {
+        tarz = ptarz;
+    }
+    string dizilisGoster()
+    {
+        return dizilis;
+    }
+    string tarzGoster()
+    {
+        return tarz;
+    }
+};
 class oyuncu
 {
 private:
@@ -116,15 +144,26 @@ private:
     int takimPuan;
     int takimId;
     oyuncu oyuncular[11];
+    taktik takimTaktik;
+    bool oyuncuTakim;
 
 public:
     takim()
     {
         takimAdi = " ";
         takimPuan = 0;
-        takimAtkGuc=0;
-        takimMidGuc=0;
-        takimDefGuc=0;
+        takimAtkGuc = 0;
+        takimMidGuc = 0;
+        takimDefGuc = 0;
+        oyuncuTakim = 0;
+    }
+    bool getOyuncuTakimi()
+    {
+        return oyuncuTakim;
+    }
+    void setOyuncuTakimi(bool pOyuncuTakim)
+    {
+        oyuncuTakim = pOyuncuTakim;
     }
     int takimAtkGucGoster()
     {
@@ -208,6 +247,22 @@ public:
         }
         return takimGucu;
     }
+    void dizilisAta(string ptaktik)
+    {
+        takimTaktik.dizilisAta(ptaktik);
+    }
+    void tarzAta(string ptarz)
+    {
+        takimTaktik.tarzAta(ptarz);
+    }
+    string dizilisGoster()
+    {
+        return takimTaktik.dizilisGoster();
+    }
+    string tarzGoster()
+    {
+        return takimTaktik.tarzGoster();
+    }
 };
 class mac
 {
@@ -253,6 +308,7 @@ public:
         return home;
     }
 };
+
 string takimAd[] = {
     "Adana",
     "Adiyaman",
@@ -341,7 +397,7 @@ string takimAd2[]{
 
 int main()
 {
-
+    int tmphangiTakim;
     int takimSayisi = 0;
     int kacTakim = 0;
     srand(time(NULL));
@@ -369,6 +425,9 @@ int main()
              << endl;
     }
     cout << "Takimlar olusturuldu." << endl;
+    cout << "Bir takim secmek icin ID girin :" << endl;
+    cin >> tmphangiTakim;
+    takimim[tmphangiTakim]->setOyuncuTakimi(1);
     //fikstur olusturma kismi
     int macsayisi = 0;
     for (int round = 0; round < kacTakim - 1; round++)
@@ -394,7 +453,8 @@ int main()
     while (basla == "basla")
     {
         string siralama[kacTakim];
-        cout << "1- Lig puan durumu\n2- Fikstur Goster\n3- Oyunculari Goruntule\n";
+        cout << takimim[tmphangiTakim]->takimAdiGoster() << endl
+             << "1- Lig puan durumu\n2- Fikstur Goster\n3- Oyunculari Goruntule\n4- Taktik Ayarlari";
         cin >> tmp;
         system("cls");
         if (tmp == "1")
@@ -463,6 +523,14 @@ int main()
                      << endl;
             cin >> tmp;
             takimim[stoi(tmp)]->oyuncuGoster();
+        }
+        if (tmp == "4")
+        {
+            system("cls");
+            cout<<takimim[tmphangiTakim]->takimAdiGoster()<<" - "<<takimim[tmphangiTakim]->dizilisGoster()
+            <<" - "<<takimim[tmphangiTakim]->tarzGoster()<<endl;
+            cout<<"Dizilis Secin[442/433/352 vs...]"<<endl;
+            //buradan devam edilecek
         }
     }
     return 1;
